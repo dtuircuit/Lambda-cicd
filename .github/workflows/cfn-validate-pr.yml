@@ -22,7 +22,7 @@ jobs:
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY_ID}}
           aws-region: us-east-2
 
-      - name: Validate CLoudformation template
+      - name: Validate Cloudformation template
         run: |
           aws cloudformation validate-template --template-body file://cloudformation/s3-bucket.yaml
       - name: Deploy our stack
@@ -39,7 +39,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'CLoudformation test stack deployed. Stack name: pr-test-stack-${{github.event.pull-request.number}}'
+              body: 'Cloudformation test stack deployed. Stack name: pr-test-stack-${{github.event.pull-request.number}}'
 
               })
 

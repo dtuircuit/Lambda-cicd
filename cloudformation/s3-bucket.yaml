@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "S3-bucket for out ci/cd pr"
+
+Parameters:
+  Environment:
+    Type: String
+    Default: test
+    AllowedValues:
+      - test
+      - staging
+      - production
+
+Resources:
+  MyS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-${Environment}-bucket"
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Environment
+          Value: GithubActionsTesting

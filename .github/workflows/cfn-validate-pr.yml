@@ -19,16 +19,16 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY_ID}}
           aws-region: us-east-2
 
-      - name: Validate CLoudformation template
+      - name: Validate Cloudformation template
         run: |
-          aws cloudformation validate-template --template-body file://cloudfomration/s3-bucket.yaml
+          aws cloudformation validate-template --template-body file://cloudformation/s3-bucket.yaml
       - name: Deploy our stack
         run: |
           stack_name="pr-test-stack-${{github.event.pull_request.number}}"
-          aws cloudformation create-stack --stack-name $stack_name --template-body file://cloudfomration/s3-bucket.yaml --parameters ParameterKey=Enviroment , ParameterValue=test
+          aws cloudformation create-stack --stack-name $stack_name --template-body file://cloudformation/s3-bucket.yaml --parameters ParameterKey=Enviroment , ParameterValue=test
 
       - name: Comment on the PR
         uses: actions/github-script@v6
@@ -39,7 +39,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'CLoudformation test stack deployed. Stack name: pr-test-stack-${{github.event.pull-request.number}}'
+              body: 'Cloudformation test stack deployed. Stack name: pr-test-stack-${{github.event.pull-request.number}}'
 
               })
 
@@ -51,7 +51,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY_ID}}
           aws-region: us-east-2
 
       - name: Delete Test Stack
